@@ -1,0 +1,8 @@
+{
+  "mcmc": {
+    "best_psnr": 25.841905757249176,
+    "total_time": 826.1054697036743,
+    "final_gaussians": 3000000,
+    "run_dir": "checkpoints/mcmc_20260220_001634"
+  }
+}

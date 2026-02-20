@@ -1,0 +1,69 @@
+# ── Data ─────────────────────────────────────────────────────────────
+data:
+  data_dir: "data/360_v2/garden"
+  data_factor: 4                    # Downsample images by 4x
+  test_every: 8                     # Every Nth image for validation
+  normalize: true                   # Normalize world space
+
+# ── Gaussians ────────────────────────────────────────────────────────
+gaussians:
+  sh_degree: 3                      # Spherical harmonics degree (0-3)
+  sh_degree_interval: 1000          # Increase SH degree every N steps
+  init_opacity: 0.1                 # Initial opacity (logit space internally)
+  init_scale: 1.0                   # Initial scale factor
+  near_plane: 0.01
+  far_plane: 1.0e+10
+
+# ── Training ─────────────────────────────────────────────────────────
+training:
+  max_steps: 30000
+  batch_size: 1
+  ssim_lambda: 0.2                  # Weight for SSIM loss (rest is L1)
+  opacity_reg: 0.0                  # Opacity regularization weight
+  scale_reg: 0.0                    # Scale regularization weight
+
+# ── Learning Rates ───────────────────────────────────────────────────
+lr:
+  means: 1.6e-4
+  scales: 5.0e-3
+  opacities: 5.0e-2
+  quats: 1.0e-3
+  sh0: 2.5e-3
+  shN: 1.25e-4                     # sh0_lr / 20
+
+# ── Densification Strategy ──────────────────────────────────────────
+strategy:
+  type: "default"                   # "default" or "mcmc"
+  # Default strategy params
+  prune_opa: 0.005
+  grow_grad2d: 0.0002
+  grow_scale3d: 0.01
+  grow_scale2d: 0.05
+  refine_start_iter: 500
+  refine_stop_iter: 15000
+  refine_every: 100
+  reset_every: 3000
+  absgrad: false
+  # MCMC strategy params
+  cap_max: 3000000                  # Max number of Gaussians for MCMC
+  noise_lr: 5.0e+3
+  mcmc_refine_start_iter: 500
+  mcmc_refine_every: 100
+
+# ── Depth Regularization ────────────────────────────────────────────
+depth:
+  enabled: false                    # Enable depth loss
+  lambda: 0.01                      # Depth loss weight
+  depth_model: "Depth-Anything-V2-Small-hf"   # Monocular depth model
+  use_disparity: true               # Loss in disparity space (1/depth)
+
+# ── Evaluation ───────────────────────────────────────────────────────
+evaluation:
+  eval_steps: [7000, 14000, 21000, 30000]
+  save_steps: [7000, 30000]
+
+# ── Paths ────────────────────────────────────────────────────────────
+paths:
+  output_dir: "checkpoints"
+  results_dir: "results"
+  logs_dir: "logs"

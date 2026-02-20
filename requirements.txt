@@ -1,0 +1,17 @@
+torch>=2.0.0
+torchvision
+gsplat>=1.5.0
+pycolmap
+opencv-python-headless
+imageio
+numpy
+matplotlib
+seaborn
+scikit-image
+lpips
+tqdm
+pyyaml
+plyfile
+transformers
+Pillow
+typing_extensions
